@@ -3,6 +3,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient
 
+var db;
 
 MongoClient.connect('mongodb://localhost:27017/examen', { useNewUrlParser: true },
  (err, database) => {
@@ -13,5 +14,21 @@ MongoClient.connect('mongodb://localhost:27017/examen', { useNewUrlParser: true 
     })
 })
 
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
+app.use(express.static('public'))
+
+
+// Redirect to list
+app.get('/', (req, res) => {
+   res.redirect('/list')
+})
+
+// list all products
+app.get('/list', (req, res) => {
+  db.collection('recipes').find().toArray((err, result) => {
+    if (err) throw err
+    res.render('list.ejs',{ recipes: result })
+  })
+})
