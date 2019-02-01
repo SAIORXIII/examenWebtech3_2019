@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 
 // list all products
 app.get('/list', (req, res) => {
-  db.collection('recipes').find().toArray((err, result) => {
+  db.collection('recipes').find().sort( { name: 1 } ).toArray((err, result) => {
     if (err) throw err
     res.render('list.ejs',{ recipes: result })
   })
@@ -41,13 +41,14 @@ app.get('/add', (req, res) => {
 
 // Add a product to the db
 app.post('/add', (req, res) => {
-  if(db.collection('recipes').find(req.body) == false){
+  if((db.collection('recipes').find(req.body.name),{"name": req.body.name}) == true){
     db.collection('recipes').insertOne(req.body, (err, result) => {
       if (err) return console.log(err)
        res.redirect('/list')
     },{ upsert: true })
   }else{
-    console.log("already exists")
+    var name = req.body.name
+    console.log(name + " already exists")
     res.redirect('/add')
 
   }
