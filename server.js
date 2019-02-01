@@ -41,8 +41,15 @@ app.get('/add', (req, res) => {
 
 // Add a product to the db
 app.post('/add', (req, res) => {
-  db.collection('recipes').insertOne(req.body, (err, result) => {
-    if (err) return console.log(err)
-     res.redirect('/list')
-  })
+  if(db.collection('recipes').find(req.body) == false){
+    db.collection('recipes').insertOne(req.body, (err, result) => {
+      if (err) return console.log(err)
+       res.redirect('/list')
+    },{ upsert: true })
+  }else{
+    console.log("already exists")
+    res.redirect('/add')
+
+  }
+
 })
