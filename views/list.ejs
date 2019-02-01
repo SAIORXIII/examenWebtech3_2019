@@ -8,7 +8,20 @@
 <body>
 
   <h2>All recipes</h2>
+  <br/><br/>
+   <ul class='product'>
+   <% for(var i=0; i < products.length; i++) {%>
+     <li class='product'>
+       <span><b>Name : </b><%= recipes[i].name %></span><br />
+       <span><b>Calories : </b><%= recipes[i].calories %></span><br />
+       <span><b>Ingredients : </b><%= recipes[i].Ingredients %></span><br />
+       <span><b>Time : </b><%= recipes[i].time %></span><br />
 
+     </li>
+   <% } %>
+   </ul>
+  <br />
+  <a href='/add'>Add recipe</a>&nbsp;&nbsp;<a href='/search'>Add recipe</a>
 
 
   <br />

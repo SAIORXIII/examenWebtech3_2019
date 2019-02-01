@@ -32,3 +32,17 @@ app.get('/list', (req, res) => {
     res.render('list.ejs',{ recipes: result })
   })
 })
+
+
+// Show the add product form
+app.get('/add', (req, res) => {
+   res.render('add.ejs', {})
+})
+
+// Add a product to the db
+app.post('/add', (req, res) => {
+  db.collection('recipes').insertOne(req.body, (err, result) => {
+    if (err) return console.log(err)
+     res.redirect('/list')
+  })
+})
